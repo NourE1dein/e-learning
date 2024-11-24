@@ -7,8 +7,7 @@
 #   (use "git push" to publish your local commits)
 #
 # Changes to be committed:
-#	deleted:    backend
-#	deleted:    frontend
+
 #	new file:   src/analytics/analytics.controller.ts
 #	new file:   src/analytics/analytics.module.ts
 #	new file:   src/analytics/analytics.service.ts

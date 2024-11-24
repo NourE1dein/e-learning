@@ -1,12 +1,11 @@
-import { Schema, Document } from 'mongoose';
+/* eslint-disable prettier/prettier */
+import mongoose, { Schema, Document } from 'mongoose';
 
-export interface Question {
+export interface Question extends Document {
   questionText: string;
   options: string[];
   correctAnswer: string;
 }
-
-
 export interface Quiz extends Document {
   moduleId: string; // Reference to Module
   questions: Question[];
@@ -24,3 +23,6 @@ export const QuizSchema = new Schema<Quiz>({
   ],
   createdAt: { type: Date, default: Date.now },
 });
+
+export default mongoose.model <Quiz>("Quiz",QuizSchema)
+

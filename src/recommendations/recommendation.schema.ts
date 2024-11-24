@@ -1,8 +1,9 @@
-import { Schema, Document } from 'mongoose';
+/* eslint-disable prettier/prettier */
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface Recommendation extends Document {
   userId: string; // User for whom recommendations are generated
-  recommendedItems: any; 
+  recommendedItems: any;
   generatedAt: Date;
 }
 
@@ -11,3 +12,5 @@ export const RecommendationSchema = new Schema<Recommendation>({
   recommendedItems: { type: [String], required: true },
   generatedAt: { type: Date, default: Date.now },
 });
+
+export default mongoose.model <Recommendation>("progress",RecommendationSchema)

@@ -1,10 +1,11 @@
-import { Schema, Document } from 'mongoose';
+/* eslint-disable prettier/prettier */
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface Module extends Document {
   courseId: string; // Reference to Course
   title: string;
   content: string;
-  resources: any; 
+  resources: any;
   createdAt: Date;
 }
 
@@ -15,4 +16,4 @@ export const ModuleSchema = new Schema<Module>({
   resources: { type: [String], default: [] },
   createdAt: { type: Date, default: Date.now },
 });
-
+export default mongoose.model <Module>("Module",ModuleSchema)
