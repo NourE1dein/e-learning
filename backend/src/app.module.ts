@@ -6,7 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 
 // Importing schemas
 import { UserSchema } from './users/user.schema';
-import { CourseSchema } from './courses/course.schema';
+import { CourseSchema } from './courses/course.schema'; // Updated
 import { ModuleSchema } from './courses/module.schema';
 import { ResponseSchema } from './courses/response.schema';
 import { PerformanceSchema } from './analytics/performance.schema';
