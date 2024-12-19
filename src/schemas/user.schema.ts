@@ -28,14 +28,14 @@ export class user{
    // @Prop({required:true})
     //created_at :Date ;
 
-    @Prop({ type: [{ type: Types.ObjectId, ref: 'Course' }], default: [] })
+    @Prop({ type: [{ type: Types.ObjectId, ref: 'course' }], default: [] })
     enrolledCourses: Types.Array<Types.ObjectId>; // Array of Course IDs
 
-    @Prop({ type: [{ type: Types.ObjectId, ref: 'Course' }], default: [] })
+    @Prop({ type: [{ type: Types.ObjectId, ref: 'course' }], default: [] })
     completedCourses: Types.Array<Types.ObjectId>; // Array of completed Course IDs
 
     @Prop({ type: [{ courseId: Types.ObjectId, score: Number }], default: [] })
-    scores: { courseId: Types.ObjectId; score: number }[];
+    scores: { courseId: Types.ObjectId; score: number };
 
 
 }

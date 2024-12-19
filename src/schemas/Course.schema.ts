@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document,  Types } from 'mongoose';
 
-export type CourseDocument = Course & Document;
+export type CourseDocument = course & Document;
 
 @Schema({ timestamps: true }) // Automatically adds `createdAt` and `updatedAt` fields
-export class Course {
+export class course {
   @Prop({ required: true })
   title: string;
 
@@ -18,16 +18,24 @@ export class Course {
   difficultyLevel: 'Beginner' | 'Intermediate' | 'Advanced';
 
   @Prop({ required: true })
-  createdBy: string; // Instructor ID
+  createdBy: string
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Module' }] })
-  modules: Types.Array<Types.ObjectId>;
 
-  @Prop({
-    type: [{ filename: { type: String }, path: { type: String } }],
-    default: [],
-  })
-  resources: { filename: string; path: string }[];
+  @Prop({ type: [{ type:Types.ObjectId, ref: 'chapter' }] })
+  modules: string[];
+
+  @Prop({ type: [{ type:Types.ObjectId, ref: 'students' }] })
+  enrolledStudents: string[]
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'performance' }], default: [] })
+  performanceEntries: Types.Array<Types.ObjectId>; // Array of performance IDs
+
+  @Prop({required:true , enum:['available' , 'unavailable'],default: 'available'})
+  status:'available' | "unavailable" ; 
+
+  @Prop({required :true })
+  courseScore:string; // lesa
+
 }
 
-export const CourseSchema = SchemaFactory.createForClass(Course);
+export const CourseSchema = SchemaFactory.createForClass(course);

@@ -1,9 +1,9 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Patch, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post, Put } from "@nestjs/common";
 import { CreateUserDto } from "./dto/CreateUser.dto";
 import { UserService } from "./user.service";
 import { LoginUserDto } from "./dto/LoginUser.dto";
 import { UpdateUserDto } from "./dto/UpdateUser.dto";
-import mongoose from "mongoose";
+import mongoose, { Query } from "mongoose";
 
 @Controller('user')
 export class UserController {
@@ -60,29 +60,20 @@ async updateUserInfo(@Param('id') id: string,  @Body() updateUserDto: UpdateUser
   return updatedUser;
 }
 
-
-@Get(':id/enrolled-courses')
-async viewEnrolledCourses (@Param('id') id: string) {
-  const user = await this.userService.getUsersById(id).populate('enrolledCourses');
-  if (!user) throw new HttpException('User is not found', 400);
-
-  if (user.role !== 'student' && user.role !== 'instructor') throw new HttpException('Permission denied: either instructor or student only can view enrolled courses',400)
-
-  return { enrolledCourses: user.enrolledCourses };
+@Delete(':id')
+async DeleteUser(@Param('id') id: string){
+  const isValid = mongoose.Types.ObjectId.isValid(id)   
+  if(!isValid) throw new HttpException('this id is not valid',404)
+  const deletedUser = await this.userService.deleteUser(id);
+  console.log("Delete result:", deletedUser);
+  if(!deletedUser)throw new HttpException('the user does not exist' , 404)
+    
+  return  ;
 
 }
 
-@Get(':id/completed-courses')
-async viewCompletedCourses(@Param('id') id: string){
 
-    const user = await this.userService.getUsersById(id).populate('completedCourses');
-    if (!user) throw new HttpException('User is not found', 400);
 
-  if (user.role !== 'student' && user.role !== 'instructor')throw new HttpException('Permission denied: either instructor or student only can view completed courses',400)
-
-    return{completedCourses:user.completedCourses};
-  
-}
 
 @Get(':id/monitor-score')
 async MontitorScore(@Param('id') id: string){
@@ -95,10 +86,24 @@ async MontitorScore(@Param('id') id: string){
       return{scores:user.scores};
     }
 
+    @Get('IsearchStudent/:id/:fullName')
+    async searchStudent(
+      @Param('id') id: string, 
+      @Param('fullName') fullName: string,
+    ) {
+      return this.userService.searchStudent(id, fullName);
+    };
 
 
-}
+    @Get('SsearchInstructor/:id/:fullName')
+    async searchInstructor(
+      @Param('id') id: string, 
+      @Param('fullName') fullName: string,
+    ) {
+      return this.userService.searchInstructor(id, fullName);
+    };
 
 
 
 
+  }
